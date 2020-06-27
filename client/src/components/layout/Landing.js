@@ -1,8 +1,20 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import {connect} from 'react-redux';
 
 class Landing extends Component {
   render() {
+    const { isAuthenticated } = this.props.auth;
+    const notAuth = (
+      <div>
+        <Link to="/register" className="btn btn-lg btn-info mr-2">
+          Sign Up
+        </Link>
+        <Link to="/login" className="btn btn-lg btn-light">
+          Login
+        </Link>
+      </div>
+    );
     return (
       <div className="landing">
         <div className="dark-overlay landing-inner text-light">
@@ -15,12 +27,7 @@ class Landing extends Component {
                   from other developers
                 </p>
                 <hr />
-                <Link to="/register" className="btn btn-lg btn-info mr-2">
-                  Sign Up
-                </Link>
-                <Link to="/login" className="btn btn-lg btn-light">
-                  Login
-                </Link>
+                {!isAuthenticated ? notAuth : ''}
               </div>
             </div>
           </div>
@@ -30,4 +37,8 @@ class Landing extends Component {
   }
 }
 
-export default Landing;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(Landing);
