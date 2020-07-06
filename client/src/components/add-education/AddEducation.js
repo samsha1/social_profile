@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
-import { Link, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { addExperience } from "../../actions/profileActions";
-class AddExperience extends Component {
+import { addEducation } from "../../actions/profileActions";
+
+class AddEducation extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      title: "",
-      company: "",
+      school: "",
+      degree: "",
+      fieldofstudy: "",
       from: "",
       to: "",
       current: false,
-      location: "",
       description: "",
       errors: {},
       disabled: false,
@@ -26,6 +26,10 @@ class AddExperience extends Component {
     this.onCheck = this.onCheck.bind(this);
   }
 
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
   onCheck(e) {
     this.setState({
       current: !this.state.current,
@@ -33,26 +37,19 @@ class AddExperience extends Component {
     });
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
   onSubmit(e) {
     e.preventDefault();
-
-    const expData = {
-      company: this.state.company,
-      title: this.state.title,
-      location: this.state.location,
+    const eduState = {
+      school: this.state.school,
+      degree: this.state.degree,
+      fieldofstudy: this.state.fieldofstudy,
       from: this.state.from,
       to: this.state.to,
       current: this.state.current,
-      description: this.state.description,
+      description:this.state.description,
     };
 
-    console.log(expData);
-
-    this.props.addExperience(expData, this.props.history);
+    this.props.addEducation(eduState, this.props.history);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -60,51 +57,55 @@ class AddExperience extends Component {
       this.setState({ errors: nextProps.errors });
     }
   }
+
   render() {
     const { errors } = this.state;
     return (
-      <div className="section add-experience">
+      <div className="add-education">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
               <Link to="/dashboard" className="btn btn-light">
                 Go Back
               </Link>
-              <h1 className="display-4 text-center">Add Your Experience</h1>
+              <h1 className="display-4 text-center">Add Your Education</h1>
               <p className="lead text-center">
-                Add any developer/programming positions that you have had in the
-                past
+                Add any school, bootcamp, etc that you have attended
               </p>
               <small className="d-block pb-3">* = required field</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="* Job Title"
-                  name="title"
-                  value={this.state.title}
+                  type="text"
+                  name="school"
+                  placeholder="* School Or Bootcamp"
+                  error={errors.school}
+                  value={this.state.school}
                   onChange={this.onChange}
-                  error={errors.title}
                 />
                 <TextFieldGroup
-                  placeholder="* Company"
-                  name="company"
-                  value={this.state.company}
+                  type="text"
+                  name="degree"
+                  placeholder="* Degree Or Certificate"
+                  error={errors.degree}
+                  value={this.state.degree}
                   onChange={this.onChange}
-                  error={errors.company}
                 />
                 <TextFieldGroup
-                  placeholder="Location"
-                  name="location"
-                  value={this.state.location}
+                  type="text"
+                  name="fieldofstudy"
+                  placeholder="Field Of Study"
+                  error={errors.fieldofstudy}
+                  value={this.state.fieldofstudy}
                   onChange={this.onChange}
-                  error={errors.location}
                 />
+
                 <h6>From Date</h6>
                 <TextFieldGroup
                   type="date"
                   name="from"
+                  error={errors.from}
                   value={this.state.from}
                   onChange={this.onChange}
-                  error={errors.from}
                 />
                 <h6>To Date</h6>
                 <TextFieldGroup
@@ -112,14 +113,13 @@ class AddExperience extends Component {
                   name="to"
                   value={this.state.to}
                   onChange={this.onChange}
-                  error={errors.to}
                   disabled={this.state.disabled ? "disabled" : ""}
                 />
                 <div className="form-check mb-4">
                   <input
                     type="checkbox"
-                    className="form-check-input"
                     name="current"
+                    className="form-check-input"
                     value={this.state.current}
                     onChange={this.onCheck}
                     checked={this.state.current}
@@ -130,12 +130,12 @@ class AddExperience extends Component {
                   </label>
                 </div>
                 <TextAreaFieldGroup
-                  placeholder="Job Description"
+                  placeholder="Program Description"
                   name="description"
                   value={this.state.description}
                   onChange={this.onChange}
                   error={errors.description}
-                  info="Some of your responsibilities, etc"
+                  info="Tell us about your experience and what you learned"
                 />
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
@@ -147,17 +147,17 @@ class AddExperience extends Component {
   }
 }
 
-AddExperience.propTypes = {
-  addExperience: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired,
+AddEducation.propTypes = {
   errors: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  addEducation: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  profile: state.profile,
   errors: state.errors,
+  profile: state.profile,
 });
 
-export default connect(mapStateToProps, { addExperience })(
-  withRouter(AddExperience)
+export default connect(mapStateToProps, { addEducation })(
+  withRouter(AddEducation)
 );
