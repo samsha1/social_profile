@@ -65,6 +65,15 @@ class ProfileHeader extends Component {
                     <i className="fab fa-linkedin fa-2x"></i>
                   </a>
                 )}
+                {isEmpty(profile.social.youtube) ? null : (
+                  <a
+                    className="text-white p-2"
+                    href={profile.social.youtube}
+                    target="_blank"
+                  >
+                    <i className="fab fa-youtube fa-2x"></i>
+                  </a>
+                )} 
                 {isEmpty(profile.social.instagram) ? null : (
                   <a
                     className="text-white p-2"
