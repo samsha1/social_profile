@@ -28,19 +28,39 @@ export const getCurrentProfile = () => (dispatch) => {
     );
 };
 
+//Get Profile By Handle
+
+export const getProfileByHandle = (handle) => (dispatch) => {
+  dispatch(setProfileLoading());
+  axios
+    .get(`/api/profile/handle/${handle}`)
+    .then((res) =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data,
+      })
+    )
+    .catch((err) =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: null,
+      })
+    );
+};
+
 //Get all Profiles
 
 export const getProfiles = () => (dispatch) => {
   dispatch(setProfileLoading());
   axios
     .get("/api/profile/all")
-    .then(res =>
+    .then((res) =>
       dispatch({
         type: GET_PROFILES,
         payload: res.data,
       })
     )
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data,

@@ -16,9 +16,10 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { clearCurrentProfile } from "./actions/profileActions";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
-import AddExperience from "./components/add-experience/AddExperience"
+import AddExperience from "./components/add-experience/AddExperience";
 import AddEducation from "./components/add-education/AddEducation";
-import Profiles from './components/profiles/Profiles';
+import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profiles/Profile";
 
 if (localStorage.jwtToken) {
   //set auth token header auth
@@ -53,7 +54,8 @@ class App extends Component {
             <div className="container">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/profiles" component={Profiles}/>
+              <Route exact path="/profiles" component={Profiles} />
+              <Route exact path="/profile/:handle" component={Profile} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>
